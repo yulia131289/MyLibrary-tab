@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 
-import { HomePage } from '../home/home';
+import { GlobalLibraryPage } from '../global-library/global-library';
+
 
 @Component({
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
 
-  tab1Root = HomePage;
+  tab2Root = GlobalLibraryPage;
 
   constructor() {
 

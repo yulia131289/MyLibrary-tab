@@ -5,14 +5,47 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
+  <ion-toolbar>
+  <ion-searchbar 
+                [(ngModel)]="queryText"
+                (ionInput)="searchMovie()"
+                >
+              </ion-searchbar>
+            </ion-toolbar>
   <ion-navbar>
-    <ion-title>GlobalLibrary</ion-title>
+    <p (click)="login()" >Log in</p>
+    <p (click)="register()" >Register</p>
   </ion-navbar>
-
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding >
+    <ion-grid>
+        <ion-row *ngFor="let row of grid">
+            <ion-col width-50 *ngFor="let movie of row">
+              <img class="poster" src="http://image.tmdb.org/t/p/w500{{movie.poster_path}}" (click)="itemTapped(movie)"/>
+               </ion-col>
+              </ion-row>
+      </ion-grid>
+
+      <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+  <!--
+    <ion-grid>
+        <ion-row *ngFor="let row of grid">
+            <ion-col width-50 *ngFor="let file_uri of row">
+              <img src="http://images5.fanpop.com/image/photos/31300000/beautiful-heart-pic-beautiful-pictures-31395948-333-500.jpg" >
+             hello
+            </ion-col>
+          </ion-row>
+      </ion-grid>
+  <ion-list>
+    <ion-item *ngFor="let movie of movies">
+        <ion-img width="80" height="80" src="http://image.tmdb.org/t/p/w185//{{movie.poster_path}}" ></ion-img>
+        <h6>{{movie.original_title}}</h6>
+
+    </ion-item>
+  </ion-list>-->
 
 </ion-content>
