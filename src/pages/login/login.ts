@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController  } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, LoadingController, AlertController  } from 'ionic-angular';
 import { AuthService} from '../../providers/services'
-import { Observable } from 'rxjs/Observable';
 import { NgForm } from "@angular/forms";
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/take';
+
 
 
 @IonicPage()
@@ -15,11 +12,28 @@ import 'rxjs/add/operator/take';
 })
 export class LoginPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public auth: AuthService) {
+  constructor(public viewCtrl: ViewController, public authService: AuthService, private loadingCtrl: LoadingController, private alertCtrl: AlertController) {
   }
 
   onLogin(form: NgForm){
-    console.log(form.value);
+    const loading = this.loadingCtrl.create({
+      content: 'Wait ...'
+    })
+    loading.present();
+    this.authService.login(form.value.email, form.value.password)
+    .then( data => { 
+      loading.dismiss();
+      this.viewCtrl.dismiss();
+     })
+    .catch( error => {
+      loading.dismiss();
+      const alert = this.alertCtrl.create({
+        title: "Login Error!",
+        message: error.message,
+        buttons: ['Ok']
+      });
+      alert.present();
+    });
   }
   
   closeLogin(){

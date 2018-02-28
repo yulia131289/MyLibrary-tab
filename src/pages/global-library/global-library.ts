@@ -1,17 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,  ModalController } from 'ionic-angular';
 
-import {MovieApi} from "../../providers/services";
+import {MovieApi, AuthService} from "../../providers/services";
 import {MovieDetailPage} from "../movie-detail/movie-detail";
 import {LoginPage} from "../login/login";
 import {RegisterPage} from "../register/register";
+import * as firebase from 'firebase';
 
-/**
- * Generated class for the GlobalLibraryPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -27,9 +22,16 @@ export class GlobalLibraryPage {
  currPage = 1;
  rowNumInGrid = 0;
  indexinMoviesArray = 0;
+ isAuthenticated = false;
 
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, private movieApi : MovieApi, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private movieApi : MovieApi, public modalCtrl: ModalController, private authService: AuthService) {
+    firebase.auth().onAuthStateChanged( user => {
+      if(user) {
+        this.isAuthenticated = true;
+      } else {
+        this.isAuthenticated = false;
+      }
+    })
   }
  
   ionViewDidLoad(){
@@ -133,6 +135,10 @@ login(){
   let loginModale = this.modalCtrl.create(LoginPage);
 
   loginModale.present();
+}
+
+logout(){
+  this.authService.logout();
 }
 
 register(){

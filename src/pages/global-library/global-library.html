@@ -1,21 +1,17 @@
-<!--
-  Generated template for the GlobalLibraryPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
   <ion-toolbar>
   <ion-searchbar 
                 [(ngModel)]="queryText"
                 (ionInput)="searchMovie()"
                 >
-              </ion-searchbar>
-            </ion-toolbar>
+   </ion-searchbar>
+    </ion-toolbar>
   <ion-navbar>
-    <p (click)="login()" >Log in</p>
-    <p (click)="register()" >Register</p>
-  </ion-navbar>
+    <button (click)="login()" *ngIf="!isAuthenticated" >Log in</button>
+    <button (click)="register()" *ngIf="!isAuthenticated" >Register</button>
+    <button (click)="logout()" *ngIf="isAuthenticated" >Logout</button>
+ </ion-navbar>
 </ion-header>
 
 
@@ -31,21 +27,6 @@
       <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
       </ion-infinite-scroll>
-  <!--
-    <ion-grid>
-        <ion-row *ngFor="let row of grid">
-            <ion-col width-50 *ngFor="let file_uri of row">
-              <img src="http://images5.fanpop.com/image/photos/31300000/beautiful-heart-pic-beautiful-pictures-31395948-333-500.jpg" >
-             hello
-            </ion-col>
-          </ion-row>
-      </ion-grid>
-  <ion-list>
-    <ion-item *ngFor="let movie of movies">
-        <ion-img width="80" height="80" src="http://image.tmdb.org/t/p/w185//{{movie.poster_path}}" ></ion-img>
-        <h6>{{movie.original_title}}</h6>
 
-    </ion-item>
-  </ion-list>-->
 
 </ion-content>

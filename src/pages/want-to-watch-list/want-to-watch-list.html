@@ -1,18 +1,23 @@
-<!--
-  Generated template for the WantToWatchListPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>want.to.watch.list</ion-title>
+    <ion-title>My Future Watch Library</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+    <ion-grid>
+        <ion-row *ngFor="let row of grid">
+            <ion-col width-50 *ngFor="let movie of row">
+              <img class="poster" src="http://image.tmdb.org/t/p/w500{{movie.poster_path}}"/>
+               </ion-col>
+              </ion-row>
+      </ion-grid>
+
+
+
 
 </ion-content>
