@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {MovieApi, AuthService, FirebaseService} from "../../providers/services";
+import { IonicPage, NavController, NavParams ,  ModalController } from 'ionic-angular';
+import { AuthService, FirebaseService} from "../../providers/services";
+import {MovieDetailPage} from "../movie-detail/movie-detail";
 import * as firebase from 'firebase';
 
 
@@ -14,51 +15,35 @@ export class WantToWatchListPage {
   movies : Array<{}> = [];
   grid : Array<Array<{}>> = [];
   isAuthenticated = false;
-  currPage = 1;
+  //currPage = 1;
   rowNumInGrid = 0;
   indexinMoviesArray = 0;
+  currPage = 1;
+  disableButtons = true;
+  
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private movieApi : MovieApi, private authService: AuthService, private fireBaseService: FirebaseService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private authService: AuthService, private fireBaseService: FirebaseService, public modalCtrl: ModalController) {
     firebase.auth().onAuthStateChanged( user => {
       if(user) {
         this.isAuthenticated = true;
-        console.log(this.isAuthenticated);
-        
       } else {
         this.isAuthenticated = false;
       }
     })
   }
 
-  ionViewDidLoad() {
-    
-  }
-
-  ionViewWillEnter(){
-    if(this.isAuthenticated){
-
-    this.authService.getActiveUser().getIdToken()
-    .then( 
-      (token: string) => {
-        this.fireBaseService.fetchWantToWatch(token)
-        .subscribe(
-          (movies) => {
-            if(movies){
-              this.movies = movies;
-              this.sortResultForGrid();
-              this.currPage +=1;
-            }
-          },
-          error => {console.log(error);
-          });
-      }
-    )
-  }
+  ionViewWillEnter() {
+    var userId = this.authService.getActiveUser().uid;
+    this.fireBaseService.fetchWantToWatch(userId).subscribe(items => {
+      this.movies = items;
+      this.sortResultForGrid();
+      this.currPage +=1;
+      console.log(this.movies)});    
   }
 
   sortResultForGrid(){
     
-    console.log(this.indexinMoviesArray);
+    //console.log(this.indexinMoviesArray);
     if(this.indexinMoviesArray == 0){
       this.rowNumInGrid = 0;
     }
@@ -72,9 +57,12 @@ export class WantToWatchListPage {
          //console.log(this.movies);
          this.grid[this.rowNumInGrid][0] = this.movies[i];
        }
+       console.log(this.movies[0]);
+       console.log(this.movies[1]);
 
        if(this.movies[i+1])
        {
+        console.log("this.movies[1]");
          this.grid[this.rowNumInGrid][1] = this.movies[i+1];
        }
        this.rowNumInGrid+=1;
@@ -83,4 +71,11 @@ export class WantToWatchListPage {
     // console.log(this.indexinMoviesArray);
    }
 
+   itemTapped(movie){
+
+    let params = [movie,this.disableButtons];
+    let itemDetailModale = this.modalCtrl.create(MovieDetailPage, {params: params});
+  
+    itemDetailModale.present();
+  }
 }

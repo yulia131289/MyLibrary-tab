@@ -25,6 +25,7 @@ export class GlobalLibraryPage {
  isAuthenticated = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private movieApi : MovieApi, public modalCtrl: ModalController, private authService: AuthService) {
+
     firebase.auth().onAuthStateChanged( user => {
       if(user) {
         this.isAuthenticated = true;
@@ -77,7 +78,6 @@ export class GlobalLibraryPage {
   
   sortResultForGrid(){
     
-    console.log(this.indexinMoviesArray);
     if(this.indexinMoviesArray == 0){
       this.rowNumInGrid = 0;
     }

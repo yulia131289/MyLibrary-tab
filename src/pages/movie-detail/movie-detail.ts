@@ -12,11 +12,18 @@ import * as firebase from 'firebase';
 })
 export class MovieDetailPage {
 
-  movieId : String = this.navParams.get('id');
+  movieId  ;
   movie;
   isAuthenticated = false;
+  disableButtons = false ;
+  params;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, private movieApi : MovieApi, private authService: AuthService, private fireBaseService: FirebaseService) {
+    
+    this.params = this.navParams.get('params');
+    console.log(this.params);
+    this.movieId = this.params[0].id;
+    
     firebase.auth().onAuthStateChanged( user => {
       if(user) {
         this.isAuthenticated = true;
@@ -31,6 +38,8 @@ export class MovieDetailPage {
     this.movieApi.searchMovieById(this.movieId).subscribe(
       res => {
         this.movie = res;
+        this.disableButtons = this.params[1];
+        console.log(this.disableButtons);
       }
     )
   }
@@ -40,20 +49,15 @@ export class MovieDetailPage {
   }
 
   addToFutureWatch(){
-    this.authService.getActiveUser().getIdToken()
-    .then( 
-      (token: string) => {
-        this.fireBaseService.storeInWantToWatch(token, this.movie)
-        .subscribe(
-          () => console.log('sucsees!'),
-          error => {console.log(error);
-          }
-        );
-      }
-    )
+
+    var userId = this.authService.getActiveUser().uid;
+    this.fireBaseService.storeInWantToWatch(userId, this.movie);
   }
 
   addToAlreadyWatched(){
+   
+    var userId = this.authService.getActiveUser().uid;
+    this.fireBaseService.storeInAlreadyWatched(userId, this.movie);
 
   }
 

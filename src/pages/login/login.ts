@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, LoadingController, AlertController  } from 'ionic-angular';
+import { IonicPage, ViewController, LoadingController, AlertController  } from 'ionic-angular';
 import { AuthService} from '../../providers/services'
 import { NgForm } from "@angular/forms";
 
@@ -39,6 +39,4 @@ export class LoginPage {
   closeLogin(){
     this.viewCtrl.dismiss();
   }
-
- 
 }

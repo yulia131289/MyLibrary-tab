@@ -9,9 +9,9 @@
 <ion-content padding *ngIf="movie">
     <img class="poster" src="http://image.tmdb.org/t/p/w500{{movie.backdrop_path}}" >
     <h1>{{movie.original_title}}</h1>
-    <h6>{{movie.overview}}</h6>
+    <p>{{movie.overview}}</p>
 
-    <button ion-button *ngIf="isAuthenticated" >Add to Already Watched</button>
-    <button ion-button (click)="addToFutureWatch()" *ngIf="isAuthenticated">Add to Future Watch</button>
+  <button ion-button  (click)="addToAlreadyWatched()" *ngIf="isAuthenticated && !disableButtons" >Add to Already Watched</button>
+    <button ion-button (click)="addToFutureWatch()" *ngIf="isAuthenticated && !disableButtons">Add to Future Watch</button>
 
 </ion-content>

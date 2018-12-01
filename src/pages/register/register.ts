@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, ViewController, LoadingController, AlertController  } from 'ionic-angular';
 import { NgForm } from "@angular/forms";
-import { AuthService} from '../../providers/services'
+import { AuthService, FirebaseService} from '../../providers/services';
 
 @IonicPage()
 @Component({
@@ -10,7 +10,7 @@ import { AuthService} from '../../providers/services'
 })
 export class RegisterPage {
 
-  constructor( public viewCtrl: ViewController, private authService: AuthService, private loadingCtrl: LoadingController, private alertCtrl: AlertController) {
+  constructor( public viewCtrl: ViewController, private authService: AuthService, private loadingCtrl: LoadingController, private alertCtrl: AlertController, private fireBaseService: FirebaseService) {
   }
 
   onRegister(form: NgForm){
@@ -20,7 +20,11 @@ export class RegisterPage {
     loading.present();
     this.authService.register(form.value.email, form.value.password)
     .then( 
-      data => {loading.dismiss();})
+      user => {
+        this.fireBaseService.createNewUserDocument(user.uid);
+        loading.dismiss();
+        this.viewCtrl.dismiss();
+      })
       .catch(error => {
         loading.dismiss();
         const alert = this.alertCtrl.create({

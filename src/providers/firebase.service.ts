@@ -1,37 +1,38 @@
 import { Injectable } from '@angular/core';
-import * as firebase from 'firebase/app';
-import { Http } from '@angular/http';
-import { AuthService } from './auth.service';
-
+import { AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firestore';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class FirebaseService{
 
-    movies : Array<{}> = [];
+    movieCollection: AngularFirestoreCollection<any>;
+    movies: Observable<any[]>;
+   
     
-    constructor(private http: Http,private authService: AuthService ){}
-
-    storeInWantToWatch(token: string, movie){
-       const userId = this.authService.getActiveUser().uid;
-       this.movies.push(movie);
-
-       return this.http.put('https://mylibrary-tab.firebaseio.com/' + userId + '/WantToWatch.json?=' + token, this.movies)
-       .map(response => {
-           return response.json();
-       });
+    constructor(private angularFirestore: AngularFirestore){
     }
 
-    fetchWantToWatch(token: string){
-        const userId = this.authService.getActiveUser().uid;
+    storeInWantToWatch(userId: string, movie){
+       this.angularFirestore.collection('Users').doc(userId).collection('Future Watch').add(movie);
+      }
 
-        return this.http.get('https://mylibrary-tab.firebaseio.com/' + userId + '/WantToWatch.json?=' + token)
-       .map(response => {
-           return response.json();
-       });
+       
+    storeInAlreadyWatched(userId: string, movie){
+       this.angularFirestore.collection('Users').doc(userId).collection('Already Watched').add(movie);
+     }
+
+    fetchWantToWatch(userId: string){
+      return this.angularFirestore.collection('Users').doc(userId).collection('Future Watch').valueChanges();
     }
 
-        
+    fetchAlreadyWatched(userId: string){
+      return this.angularFirestore.collection('Users').doc(userId).collection('Already Watched').valueChanges(); 
+    }
 
-    
+    createNewUserDocument(userId){
+        console.log(userId);
+        this.angularFirestore.collection("Users").doc(userId).set({});  
+    }  
 }
+
 

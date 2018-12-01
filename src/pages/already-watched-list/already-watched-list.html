@@ -8,6 +8,20 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding >
+  <ion-grid>
+      <ion-row *ngFor="let row of grid">
+          <ion-col width-50 *ngFor="let movie of row">
+            <img *ngIf='movie' class="poster" src="http://image.tmdb.org/t/p/w500{{movie.poster_path}}" (click)="itemTapped(movie)"/>
+             </ion-col>
+            </ion-row>
+    </ion-grid>
 
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+
+    
 </ion-content>
+
