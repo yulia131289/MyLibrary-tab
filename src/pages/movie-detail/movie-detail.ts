@@ -12,7 +12,7 @@ import * as firebase from 'firebase';
 })
 export class MovieDetailPage {
 
-  movieId  ;
+  movieId;
   movie;
   isAuthenticated = false;
   disableButtons = false ;

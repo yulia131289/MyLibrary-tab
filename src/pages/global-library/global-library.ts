@@ -23,6 +23,7 @@ export class GlobalLibraryPage {
  rowNumInGrid = 0;
  indexinMoviesArray = 0;
  isAuthenticated = false;
+ disableButtons = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private movieApi : MovieApi, public modalCtrl: ModalController, private authService: AuthService) {
 
@@ -125,10 +126,12 @@ export class GlobalLibraryPage {
 }
 
 itemTapped(movie){
-  let itemDetailModale = this.modalCtrl.create(MovieDetailPage, movie);
+
+  let params = [movie,this.disableButtons];
+
+  let itemDetailModale = this.modalCtrl.create(MovieDetailPage, {params: params});
 
   itemDetailModale.present();
-
 }
 
 login(){
