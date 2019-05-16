@@ -23,7 +23,7 @@ export class GlobalLibraryPage {
  rowNumInGrid = 0;
  indexinMoviesArray = 0;
  isAuthenticated = false;
- disableButtons = true;
+ disableButtons = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private movieApi : MovieApi, public modalCtrl: ModalController, private authService: AuthService) {
 

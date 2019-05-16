@@ -1,8 +1,6 @@
 
 <ion-header>
-  <ion-navbar>
-    <button ion-button block (click)="closeMovieDetail()">Close</button>
-  </ion-navbar>
+
 </ion-header>
 
 
@@ -11,7 +9,10 @@
     <h1>{{movie.original_title}}</h1>
     <p>{{movie.overview}}</p>
 
-  <button ion-button  (click)="addToAlreadyWatched()" *ngIf="isAuthenticated && !disableButtons" >Add to Already Watched</button>
-    <button ion-button (click)="addToFutureWatch()" *ngIf="isAuthenticated && !disableButtons">Add to Future Watch</button>
+  <button ion-button clear color="green_glas" (click)="addToAlreadyWatched()" *ngIf="isAuthenticated && !disableButtons" >Add to Already Watched</button>
+    <button ion-button clear color="green_glas" (click)="addToFutureWatch()" *ngIf="isAuthenticated && !disableButtons">Add to Future Watch</button>
 
+     <ion-footer>
+        <button ion-button block color="dark" (click)="closeMovieDetail()">Close</button>
+     </ion-footer>
 </ion-content>
